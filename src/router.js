@@ -29,14 +29,14 @@ export default new Router({
       component: () => import(/* webpackChunkName: "help" */ './views/Help.vue'),
     },
     {
-      path: '/chat/all',
+      path: '/chat/:room',
       name: 'chat',
       component: () => import(/* webpackChunkName: "chat" */ './views/Chat/All.vue'),
     },
     {
       path: '/rooms/all',
       name: 'rooms',
-      component: () => import(/* webpackChunkName: "chat" */ './views/Rooms/All.vue'),
+      component: () => import(/* webpackChunkName: "rooms" */ './views/Rooms/All.vue'),
     },
   ],
 });
