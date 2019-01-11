@@ -63,7 +63,6 @@ export default {
         return;
       }
       this.websocket.send(this.message);
-      this.numMessages += 1;
       this.clearMessage();
     },
     clearMessage() {
