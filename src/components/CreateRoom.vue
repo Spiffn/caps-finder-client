@@ -19,12 +19,12 @@
           </v-card-text>
           <v-list>
             <v-list-tile
-              v-for="room in this.roomList"
-              :key="room"
-              @click="joinRoom(room)"
+              v-for="roomId in this.roomList"
+              :key="roomId"
+              @click="joinRoom(roomId)"
             >
               <v-list-tile-content>
-                <v-list-tile-title v-text="room"></v-list-tile-title>
+                <v-list-tile-title v-text="roomId"></v-list-tile-title>
               </v-list-tile-content>
 
             </v-list-tile>
@@ -79,11 +79,6 @@ export default {
         this.$router.push(`/chat/${id}`);
       }
     },
-    // joinRoom(event, i) {
-    //   console.log("MOO");
-    //   console.log(event);
-    //   console.log(i);
-    // }
   },
 };
 </script>
