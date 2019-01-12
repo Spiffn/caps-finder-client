@@ -46,6 +46,13 @@ export default {
   }),
 
   computed: {
+    serializeMessage() {
+      // TODO: Add more data to send.
+      return Buffer.from(JSON.stringify({
+        id: new Date().getTime(),
+        text: this.message,
+      }));
+    },
   },
 
   mounted() {
@@ -62,7 +69,7 @@ export default {
       if (!this.message) {
         return;
       }
-      this.websocket.send(this.message);
+      this.websocket.send(this.serializeMessage);
       this.clearMessage();
     },
     clearMessage() {
