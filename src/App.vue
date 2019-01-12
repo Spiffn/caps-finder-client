@@ -81,6 +81,7 @@ export default {
     drawer: null,
     items: [
       { icon: 'home', text: 'Home', to: '/' },
+      { icon: 'meeting_room', text: 'Rooms', to: '/rooms/all' },
       { icon: 'settings', text: 'Settings', to: '/settings' },
       {
         icon: 'keyboard_arrow_up',
