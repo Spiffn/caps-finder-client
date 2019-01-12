@@ -51,7 +51,6 @@
 <script>
 export default {
   data: () => ({
-    websocket: null,
     roomId: '',
     roomList: [],
   }),

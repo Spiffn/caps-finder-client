@@ -59,6 +59,10 @@ export default {
     this.connectToWebsocket();
   },
 
+  destroyed() {
+    this.websocket.close();
+  },
+
   methods: {
     connectToWebsocket() {
       const wsurl = `ws://localhost:8081/${this.$route.params.room}`;
