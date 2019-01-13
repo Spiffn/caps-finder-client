@@ -6,17 +6,13 @@
           <v-toolbar>
             <v-toolbar-title>Join a Room</v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
-            <v-text-field
-            prepend-icon="group_work"
-            clearable
-            name="room"
-            label="Room ID"
-            type="text"
+          <v-autocomplete
             v-model="roomId"
-            @keyup.enter="joinRoom(roomId)">
-            </v-text-field>
-          </v-card-text>
+            label="Room ID"
+            @keyup.enter="joinRoom(roomId)"
+            :items="this.roomList"
+          >
+          </v-autocomplete>
           <v-list>
             <v-list-tile
               v-for="roomId in this.roomList"
