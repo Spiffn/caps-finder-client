@@ -3,8 +3,11 @@
     <span v-if="type==='message'">
       {{ user }} at {{ date | shortDate }} : {{ text }}
     </span>
-    <span v-else>
+    <span v-else-if="type==='status'">
       <i>{{ user }} is {{ text }}</i>
+    </span>
+    <span v-else-if="type==='announcement'">
+      <b><i>{{ text }}</i></b>
     </span>
   </span>
 </template>
