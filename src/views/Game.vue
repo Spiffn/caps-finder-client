@@ -1,16 +1,16 @@
 <template>
   <v-layout>
     <v-flex pt-5 xs12 sm4 offset-sm8>
-      <chat-box/>
+      <room/>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
-import ChatBox from '@/components/ChatBox.vue';
+import Room from '@/components/Room.vue';
 
 export default {
-  components: { ChatBox },
+  components: { Room },
 };
 </script>
 
