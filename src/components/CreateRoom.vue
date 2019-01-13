@@ -73,7 +73,7 @@ export default {
     },
     joinRoom(id) {
       if (this.canJoin(id)) {
-        this.$router.push(`/chat/${id}`);
+        this.$router.push(`/game/${id}`);
       }
     },
   },
