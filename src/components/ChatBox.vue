@@ -68,7 +68,7 @@ export default {
     },
     handleMessage(response) {
       const data = this.deserialize(response.data);
-      if (data.type === 'message' || data.type === 'status') {
+      if (data.type === 'message' || data.type === 'status' || data.type === 'announcement') {
         this.addMessage(data);
       }
     },
