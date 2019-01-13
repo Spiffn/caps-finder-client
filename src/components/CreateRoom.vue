@@ -17,6 +17,18 @@
             @keyup.enter="joinRoom(roomId)">
             </v-text-field>
           </v-card-text>
+          <v-list>
+            <v-list-tile
+              v-for="roomId in this.roomList"
+              :key="roomId"
+              @click="joinRoom(roomId)"
+            >
+              <v-list-tile-content>
+                <v-list-tile-title v-text="roomId"></v-list-tile-title>
+              </v-list-tile-content>
+
+            </v-list-tile>
+          </v-list>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn class="primary" @click="createRoom">
@@ -39,7 +51,6 @@
 <script>
 export default {
   data: () => ({
-    websocket: null,
     roomId: '',
     roomList: [],
   }),
@@ -52,21 +63,18 @@ export default {
       });
   },
 
-  computed: {
-    canJoin() {
-      // getting all room ids for now
-      // TODO: turn into an async property
-      return this.roomList.includes(this.roomId);
-    },
-  },
-
   methods: {
     createRoom() {
       this.$http.get('room/new')
         .then(res => this.$router.push(`/chat/${res.data.id}`));
     },
+    canJoin(id) {
+      // getting all room ids for now
+      // TODO: turn into an async property
+      return this.roomList.includes(id);
+    },
     joinRoom(id) {
-      if (this.canJoin) {
+      if (this.canJoin(id)) {
         this.$router.push(`/chat/${id}`);
       }
     },
