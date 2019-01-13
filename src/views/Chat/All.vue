@@ -1,6 +1,6 @@
 <template>
   <v-layout>
-    <v-flex pt-5 xs12 sm6 offset-sm3>
+    <v-flex pt-5 xs12 sm6 offset-sm6>
       <chat-box/>
     </v-flex>
   </v-layout>
