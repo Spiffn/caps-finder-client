@@ -6,17 +6,15 @@
           <v-toolbar>
             <v-toolbar-title>Join a Room</v-toolbar-title>
           </v-toolbar>
-          <v-card-text>
-            <v-text-field
-            prepend-icon="group_work"
-            clearable
-            name="room"
-            label="Room ID"
-            type="text"
+          <v-autocomplete
+            class="px-2"
+            prepend-icon="meeting_room"
             v-model="roomId"
-            @keyup.enter="joinRoom(roomId)">
-            </v-text-field>
-          </v-card-text>
+            label="Room ID"
+            @keyup.enter="joinRoom(roomId)"
+            :items="this.roomList"
+          >
+          </v-autocomplete>
           <v-list>
             <v-list-tile
               v-for="roomId in this.roomList"
@@ -75,7 +73,7 @@ export default {
     },
     joinRoom(id) {
       if (this.canJoin(id)) {
-        this.$router.push(`/chat/${id}`);
+        this.$router.push(`/game/${id}`);
       }
     },
   },
