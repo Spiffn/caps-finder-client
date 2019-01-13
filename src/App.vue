@@ -81,24 +81,11 @@ export default {
     drawer: null,
     items: [
       { icon: 'home', text: 'Home', to: '/' },
-      { icon: 'meeting_room', text: 'Rooms', to: '/rooms/all' },
+      { icon: 'games', text: 'Play', to: '/play' },
       { icon: 'settings', text: 'Settings', to: '/settings' },
-      {
-        icon: 'keyboard_arrow_up',
-        'icon-alt': 'chat',
-        text: 'Chat',
-        model: false,
-        children: [
-          { icon: 'message', text: '#all', to: '/chat/all' },
-        ],
-      },
-      { icon: 'chat_bubble', text: 'Send feedback' },
       { icon: 'help', text: 'Help', to: '/help' },
       { icon: 'info', text: 'About', to: '/about' },
     ],
   }),
-  props: {
-    source: String,
-  },
 };
 </script>

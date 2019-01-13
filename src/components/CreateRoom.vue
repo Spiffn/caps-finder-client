@@ -7,6 +7,8 @@
             <v-toolbar-title>Join a Room</v-toolbar-title>
           </v-toolbar>
           <v-autocomplete
+            class="px-2"
+            prepend-icon="meeting_room"
             v-model="roomId"
             label="Room ID"
             @keyup.enter="joinRoom(roomId)"

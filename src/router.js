@@ -34,7 +34,7 @@ export default new Router({
       component: () => import(/* webpackChunkName: "chat" */ './views/Chat/All.vue'),
     },
     {
-      path: '/rooms/all',
+      path: '/play',
       name: 'rooms',
       component: () => import(/* webpackChunkName: "rooms" */ './views/Rooms/All.vue'),
     },
