@@ -64,7 +64,7 @@ export default {
   methods: {
     createRoom() {
       this.$http.get('room/new')
-        .then(res => this.$router.push(`/chat/${res.data.id}`));
+        .then(res => this.$router.push(`/game/${res.data.id}`));
     },
     canJoin(id) {
       // getting all room ids for now
