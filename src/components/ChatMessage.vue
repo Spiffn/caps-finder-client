@@ -2,7 +2,7 @@
   <div>
     <div v-if="type==='message'">
       <div class="message-metadata">
-        {{ user }} @ {{ date | shortDate }}
+        {{ user }} @ {{ date | shortDate }}:
       </div>
       <div class="text">
         {{ text }}

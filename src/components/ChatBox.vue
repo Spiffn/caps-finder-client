@@ -6,20 +6,25 @@
     <v-divider></v-divider>
     <v-layout>
       <v-flex ref="chatMessages" class="scroll">
-        <v-card v-for="(item, index) in items" :key="item.id">
-          <v-card-text class="break-word">
-            <chat-message
-              :user="item.user"
-              :date="item.timestamp"
-              :text="item.payload"
-              :type="item.type"
-              :showSender="showSender(item, items[index-1])"/>
-          </v-card-text>
-          <v-divider/>
-        </v-card>
+        <v-hover v-for="(item, index) in items" :key="item.id">
+          <v-card
+            slot-scope="{ hover }"
+            :class="[hover ? 'darken-2' : 'darken-3', 'grey']"
+          >
+            <v-card-text class="break-word">
+              <chat-message
+                :user="item.user"
+                :date="item.timestamp"
+                :text="item.payload"
+                :type="item.type"
+                :showSender="showSender(item, items[index-1])"/>
+            </v-card-text>
+            <v-divider/>
+          </v-card>
+        </v-hover>
       </v-flex>
     </v-layout>
-    <v-card-actions class="actions no-flex mt-2">
+    <v-card-actions class="no-flex mt-2">
       <v-textarea
         box
         v-model="message"
@@ -95,10 +100,6 @@ export default {
 .flexcard {
   display: flex;
   flex-direction: column;
-}
-
-.actions {
-  height: 100px;
 }
 
 .break-word{
