@@ -4,13 +4,19 @@
       <div class="message-metadata">
         {{ user }} at {{ date | shortDate }}
       </div>
-      {{ text }}
+      <div class="text">
+        {{ text }}
+      </div>
     </span>
     <span v-else-if="type==='status'">
-      <i>{{ user }} is {{ text }}</i>
+      <div class="text">
+        <i>{{ user }} is {{ text }}</i>
+      </div>
     </span>
     <span v-else-if="type==='announcement'">
-      <b><i>{{ text }}</i></b>
+      <div class="text">
+        <b><i>{{ text }}</i></b>
+      </div>
     </span>
   </span>
 </template>
@@ -39,5 +45,9 @@ export default {
 <style>
 .message-metadata {
   font-size: 75%;
+}
+
+.text {
+  hyphens: auto;
 }
 </style>
