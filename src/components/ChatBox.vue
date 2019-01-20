@@ -16,20 +16,24 @@
         <v-divider/>
       </v-card>
     </v-flex>
+    <v-flex mt-3>
     <v-card-actions class="actions">
-      <v-text-field
+      <v-textarea
+        box
         v-model="message"
         append-outer-icon="send"
-        box
         clearable
+        :rules="rules"
+        counter="250"
         label="Message"
         type="text"
+        rows="2"
         @click:append-outer="sendMessage"
         @click:clear="clearMessage"
         @keyup.enter="sendMessage"
-        hide-details
-      ></v-text-field>
+      ></v-textarea>
     </v-card-actions>
+    </v-flex>
   </v-card>
 </template>
 
@@ -48,11 +52,12 @@ export default {
 
   data: () => ({
     message: '',
+    rules: [v => v.length <= 250 || 'Max 250 characters'],
   }),
 
   methods: {
     sendMessage() {
-      if (!this.message) {
+      if (!this.message || this.message.length > 250) {
         return;
       }
       this.$emit('message', this.message);
@@ -78,6 +83,6 @@ export default {
 }
 
 .actions {
-  height: 200px;
+  height: 100px;
 }
 </style>
