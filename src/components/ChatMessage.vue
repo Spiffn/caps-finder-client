@@ -1,7 +1,10 @@
 <template>
   <span>
     <span v-if="type==='message'">
-      {{ user }} at {{ date | shortDate }} : {{ text }}
+      <div class="message-metadata">
+        {{ user }} at {{ date | shortDate }}
+      </div>
+      {{ text }}
     </span>
     <span v-else-if="type==='status'">
       <i>{{ user }} is {{ text }}</i>
@@ -34,5 +37,7 @@ export default {
 </script>
 
 <style>
-
+.message-metadata {
+  font-size: 75%;
+}
 </style>
