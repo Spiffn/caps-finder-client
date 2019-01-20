@@ -24,7 +24,7 @@
         <v-divider :key="index"></v-divider>
       </template>
     </v-list>
-    <v-card-actions>
+    <v-card-actions class="actions">
       <v-text-field
         v-model="message"
         append-outer-icon="send"
@@ -35,6 +35,7 @@
         @click:append-outer="sendMessage"
         @click:clear="clearMessage"
         @keyup.enter="sendMessage"
+        hide-details
       ></v-text-field>
     </v-card-actions>
   </v-card>
@@ -82,5 +83,9 @@ export default {
 .flexcard {
   display: flex;
   flex-direction: column;
+}
+
+.actions {
+  height: 175px;
 }
 </style>
