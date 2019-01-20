@@ -67,9 +67,9 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>El Presidente</v-toolbar-title>
+      <v-toolbar-title>Caps</v-toolbar-title>
     </v-toolbar>
-    <v-content>
+    <v-content :class="{ 'full-height': $route.name === 'game' }">
       <router-view></router-view>
     </v-content>
   </v-app>
@@ -89,3 +89,9 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+  .full-height {
+    height: 100vh;
+  }
+</style>
