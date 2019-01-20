@@ -1,10 +1,10 @@
 <template>
-  <v-card>
+  <v-card height="100%" class="flexcard">
     <v-card-title>
       <h3>Room: {{ $route.params.room }}</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-list>
+    <v-list class="scroll">
       <template v-for="(item, index) in items">
         <v-list-tile
           :key="item.id"
@@ -73,4 +73,15 @@ export default {
 </script>
 
 <style scoped>
+.scroll {
+  overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 60vh;
+}
+
+.flexcard {
+  display: flex;
+  flex-direction: column;
+}
 </style>
