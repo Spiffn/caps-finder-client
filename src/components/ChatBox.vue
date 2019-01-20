@@ -4,26 +4,18 @@
       <h3>Room: {{ $route.params.room }}</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-list class="scroll">
-      <template v-for="(item, index) in items">
-        <v-list-tile
-          :key="item.id"
-          avatar
-          ripple
-        >
-          <v-list-tile-content>
-            <v-list-tile-title>
-              <chat-message
-                :user="item.user"
-                :date="item.timestamp"
-                :text="item.payload"
-                :type="item.type"/>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider :key="index"></v-divider>
-      </template>
-    </v-list>
+    <v-flex class="scroll">
+      <v-card v-for="item in items" :key="item.id">
+        <v-card-text>
+          <chat-message
+            :user="item.user"
+            :date="item.timestamp"
+            :text="item.payload"
+            :type="item.type"/>
+        </v-card-text>
+        <v-divider/>
+      </v-card>
+    </v-flex>
     <v-card-actions>
       <v-text-field
         v-model="message"
