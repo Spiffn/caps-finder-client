@@ -1,23 +1,25 @@
 <template>
   <v-card height="100%" class="flexcard">
-    <v-card-title>
+    <v-card-title class="no-flex">
       <h3>Room: {{ $route.params.room }}</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-flex class="scroll">
-      <v-card v-for="item in items" :key="item.id">
-        <v-card-text>
-          <chat-message
-            :user="item.user"
-            :date="item.timestamp"
-            :text="item.payload"
-            :type="item.type"/>
-        </v-card-text>
-        <v-divider/>
-      </v-card>
-    </v-flex>
-    <v-flex mt-3>
-    <v-card-actions class="actions">
+    <v-layout>
+      <v-flex ref="chatMessages" class="scroll">
+        <v-card v-for="(item, index) in items" :key="item.id">
+          <v-card-text class="break-word">
+            <chat-message
+              :user="item.user"
+              :date="item.timestamp"
+              :text="item.payload"
+              :type="item.type"
+              :showSender="showSender(item, items[index-1])"/>
+          </v-card-text>
+          <v-divider/>
+        </v-card>
+      </v-flex>
+    </v-layout>
+    <v-card-actions class="actions no-flex mt-2">
       <v-textarea
         box
         v-model="message"
@@ -33,7 +35,6 @@
         @keyup.enter="sendMessage"
       ></v-textarea>
     </v-card-actions>
-    </v-flex>
   </v-card>
 </template>
 
@@ -66,6 +67,22 @@ export default {
     clearMessage() {
       this.message = '';
     },
+    showSender(current, previous) {
+      if (!previous) {
+        return true;
+      }
+      return current.type !== previous.type || current.user !== previous.user;
+    },
+  },
+
+  watch: {
+    items() {
+      this.$nextTick()
+        .then(() => {
+          const container = this.$refs.chatMessages;
+          container.scrollTop = container.scrollHeight;
+        });
+    },
   },
 };
 </script>
@@ -73,8 +90,6 @@ export default {
 <style scoped>
 .scroll {
   overflow-y: auto;
-  flex: 1 1 auto;
-  min-height: 0;
 }
 
 .flexcard {
@@ -84,5 +99,13 @@ export default {
 
 .actions {
   height: 100px;
+}
+
+.break-word{
+  overflow-wrap: break-word;
+}
+
+.no-flex {
+  flex: none;
 }
 </style>

@@ -1,28 +1,28 @@
 <template>
-  <span>
-    <span v-if="type==='message'">
+  <div>
+    <div v-if="type==='message'">
       <div class="message-metadata">
-        {{ user }} at {{ date | shortDate }}
+        {{ user }} @ {{ date | shortDate }}
       </div>
       <div class="text">
         {{ text }}
       </div>
-    </span>
-    <span v-else-if="type==='status'">
+    </div>
+    <div v-else-if="type==='status'">
       <div class="text">
         <i>{{ user }} is {{ text }}</i>
       </div>
-    </span>
-    <span v-else-if="type==='announcement'">
+    </div>
+    <div v-else-if="type==='announcement'">
       <div class="text">
         <b><i>{{ text }}</i></b>
       </div>
-    </span>
-  </span>
+    </div>
+  </div>
 </template>
 
 <script>
-import dateFormat from 'dateformat';
+import moment from 'moment';
 
 export default {
   props: {
@@ -33,10 +33,15 @@ export default {
       type: String,
       default: 'message',
     },
+    showSender: { // unused for now, but useful in case we don't want to show metadata
+      type: Boolean,
+      default: true,
+    },
   },
+
   filters: {
     shortDate(val) {
-      return dateFormat(val, 'h:MM TT');
+      return moment(val).format('h:mm a');
     },
   },
 };
@@ -44,7 +49,7 @@ export default {
 
 <style>
 .message-metadata {
-  font-size: 75%;
+  font-size: .75em;
 }
 
 .text {

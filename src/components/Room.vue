@@ -15,7 +15,13 @@ export default {
 
   mounted() {
     this.$http.get(`room/${this.$route.params.room}/history`).then((resp) => {
-      this.items = resp.data.history;
+      this.items = resp.data.history.map(message => ({
+        id: message.timestamp,
+        timestamp: new Date(message.timestamp),
+        user: message.user,
+        payload: message.payload,
+        type: message.type,
+      }));
     });
     this.connectToWebsocket();
   },
