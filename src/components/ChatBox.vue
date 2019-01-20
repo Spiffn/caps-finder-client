@@ -16,7 +16,7 @@
         <v-divider/>
       </v-card>
     </v-flex>
-    <v-card-actions>
+    <v-card-actions class="actions">
       <v-text-field
         v-model="message"
         append-outer-icon="send"
@@ -78,6 +78,6 @@ export default {
 }
 
 .actions {
-  height: 175px;
+  height: 200px;
 }
 </style>
