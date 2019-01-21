@@ -70,7 +70,9 @@
       <v-toolbar-title>Caps</v-toolbar-title>
     </v-toolbar>
     <v-content :class="{ 'full-height': $route.name === 'game' }">
-      <router-view></router-view>
+      <transition name="slide-fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -91,7 +93,21 @@ export default {
 </script>
 
 <style scoped>
+
   .full-height {
     height: 100vh;
   }
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
 </style>
