@@ -10,7 +10,7 @@
 
 <script>
 import CreateRoom from '@/components/CreateRoom.vue';
-import ACTIONS from '@/routerActions.js';
+import ACTIONS from '@/routerActions';
 
 export default {
   components: { CreateRoom },
