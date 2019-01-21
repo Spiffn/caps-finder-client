@@ -24,10 +24,17 @@ export default {
       }));
     });
     this.connectToWebsocket();
+    console.log("MOUNTED");
   },
 
+  updated() {
+    console.log("UPDATED");
+  },
+ 
   destroyed() {
+    console.log("EEEEp");
     this.websocket.close();
+    console.log("DESTROYED");
   },
 
   methods: {

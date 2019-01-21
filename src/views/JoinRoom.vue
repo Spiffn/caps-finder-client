@@ -10,9 +10,17 @@
 
 <script>
 import CreateRoom from '@/components/CreateRoom.vue';
+import ACTIONS from '@/routerActions.js';
 
 export default {
   components: { CreateRoom },
+
+  mounted() {
+    this.$store.dispatch(ACTIONS.INITIALIZE_USERNAME);
+  },
+
+  methods: {
+  },
 };
 </script>
 

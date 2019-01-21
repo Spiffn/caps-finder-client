@@ -51,7 +51,6 @@ export default {
     this.$http.get('rooms')
       .then((res) => {
         this.roomList = res.data.rooms;
-        console.log(this.roomList);
       });
   },
 
