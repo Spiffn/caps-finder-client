@@ -1,17 +1,26 @@
 <template>
-  <div class="create-room">
-    <h1>Getta room, you two!</h1>
-    <create-room/>
-  </div>
+  <v-container fluid fill-height>
+    <v-layout justify-center>
+      <v-flex pt-5 mt-5 xs12 sm6>
+        <create-room/>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import CreateRoom from '@/components/CreateRoom.vue';
-
-console.log(CreateRoom);
+import ACTIONS from '@/routerActions';
 
 export default {
   components: { CreateRoom },
+
+  mounted() {
+    this.$store.dispatch(ACTIONS.INITIALIZE_USERNAME);
+  },
+
+  methods: {
+  },
 };
 </script>
 

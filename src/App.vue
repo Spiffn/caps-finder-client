@@ -67,10 +67,12 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>El Presidente</v-toolbar-title>
+      <v-toolbar-title>Caps - {{ $store.getters.username }}</v-toolbar-title>
     </v-toolbar>
-    <v-content>
-      <router-view></router-view>
+    <v-content :class="{ 'full-height': $route.name === 'game' }">
+      <transition name="slide-fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </v-content>
   </v-app>
 </template>
@@ -89,3 +91,23 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+
+  .full-height {
+    height: 100vh;
+  }
+
+  .slide-fade-enter-active {
+    transition: all .3s ease;
+  }
+  .slide-fade-leave-active {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  }
+
+  .slide-fade-enter, .slide-fade-leave-to {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+
+</style>

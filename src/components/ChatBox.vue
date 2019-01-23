@@ -1,41 +1,44 @@
 <template>
-  <v-card>
-    <v-card-title>
+  <v-card height="100%" class="flexcard">
+    <v-card-title class="no-flex">
       <h3>Room: {{ $route.params.room }}</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-list>
-      <template v-for="(item, index) in items">
-        <v-list-tile
-          :key="item.id"
-          avatar
-          ripple
-        >
-          <v-list-tile-content>
-            <v-list-tile-title>
+    <v-layout ref="chatMessages" class="scroll">
+      <v-flex>
+        <v-hover v-for="(item, index) in items" :key="item.id">
+          <v-card
+            slot-scope="{ hover }"
+            :class="[hover ? 'darken-2' : 'darken-3', 'grey']"
+          >
+            <v-card-text class="break-word">
               <chat-message
                 :user="item.user"
                 :date="item.timestamp"
                 :text="item.payload"
-                :type="item.type"/>
-            </v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider :key="index"></v-divider>
-      </template>
-    </v-list>
-    <v-card-actions>
-      <v-text-field
+                :type="item.type"
+                :showSender="showSender(item, items[index-1])"/>
+            </v-card-text>
+            <v-divider/>
+          </v-card>
+        </v-hover>
+      </v-flex>
+    </v-layout>
+    <v-card-actions class="no-flex">
+      <v-textarea
+        box
         v-model="message"
         append-outer-icon="send"
-        box
         clearable
+        :rules="rules"
+        counter="250"
         label="Message"
         type="text"
+        rows="2"
         @click:append-outer="sendMessage"
         @click:clear="clearMessage"
         @keyup.enter="sendMessage"
-      ></v-text-field>
+      ></v-textarea>
     </v-card-actions>
   </v-card>
 </template>
@@ -55,11 +58,12 @@ export default {
 
   data: () => ({
     message: '',
+    rules: [v => v.length <= 250 || 'Max 250 characters'],
   }),
 
   methods: {
     sendMessage() {
-      if (!this.message) {
+      if (!this.message || this.message.length > 250) {
         return;
       }
       this.$emit('message', this.message);
@@ -68,9 +72,41 @@ export default {
     clearMessage() {
       this.message = '';
     },
+    showSender(current, previous) {
+      if (!previous) {
+        return true;
+      }
+      return current.type !== previous.type || current.user !== previous.user;
+    },
+  },
+
+  watch: {
+    items() {
+      this.$nextTick()
+        .then(() => {
+          const container = this.$refs.chatMessages;
+          container.scrollTop = container.scrollHeight;
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
+.scroll {
+  overflow-y: auto;
+}
+
+.flexcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.break-word{
+  overflow-wrap: break-word;
+}
+
+.no-flex {
+  flex: none;
+}
 </style>

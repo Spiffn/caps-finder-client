@@ -1,0 +1,3 @@
+export default {
+  INITIALIZE_USERNAME: 'INITIALIZE_USERNAME',
+};

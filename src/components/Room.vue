@@ -4,6 +4,7 @@
 
 <script>
 import ChatBox from './ChatBox.vue';
+import ACTIONS from '@/routerActions';
 
 export default {
   components: { ChatBox },
@@ -14,10 +15,25 @@ export default {
   }),
 
   mounted() {
-    this.$http.get(`room/${this.$route.params.room}/history`).then((resp) => {
-      this.items = resp.data.history;
+    const { room } = this.$route.params;
+    const user = this.$store.dispatch(ACTIONS.INITIALIZE_USERNAME);
+
+    this.$http.get(`room/${room}/history`).then((resp) => {
+      this.items = resp.data.history.map(message => ({
+        id: message.timestamp,
+        timestamp: new Date(message.timestamp),
+        user: message.user,
+        payload: message.payload,
+        type: message.type,
+      }));
     });
-    this.connectToWebsocket();
+
+    this.$http.get(`room/${room}/user/${user}`).then((resp) => {
+      // Connecting to the server for the first time
+      if (!resp.data.userExists) {
+        this.connectToWebsocket();
+      }
+    });
   },
 
   destroyed() {
@@ -26,7 +42,7 @@ export default {
 
   methods: {
     connectToWebsocket() {
-      const wsurl = `ws://${window.location.hostname}:8081/${this.$route.params.room}`;
+      const wsurl = `ws://${window.location.hostname}:8081/connect?room=${this.$route.params.room}&user=${this.$store.getters.username}`;
       this.websocket = new WebSocket(wsurl);
       this.websocket.onmessage = this.handleMessage;
     },
