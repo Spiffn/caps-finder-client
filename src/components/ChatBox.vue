@@ -4,8 +4,8 @@
       <h3>Room: {{ $route.params.room }}</h3>
     </v-card-title>
     <v-divider></v-divider>
-    <v-layout>
-      <v-flex ref="chatMessages" class="scroll">
+    <v-layout ref="chatMessages" class="scroll">
+      <v-flex>
         <v-hover v-for="(item, index) in items" :key="item.id">
           <v-card
             slot-scope="{ hover }"
@@ -24,7 +24,7 @@
         </v-hover>
       </v-flex>
     </v-layout>
-    <v-card-actions class="no-flex mt-2">
+    <v-card-actions class="no-flex">
       <v-textarea
         box
         v-model="message"
