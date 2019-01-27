@@ -5,7 +5,7 @@ import MUTATIONS from './routerMutations';
 import ACTIONS from './routerActions';
 
 const http = axios.create({
-  baseURL: 'http://localhost:8081/',
+  baseURL: process.env.VUE_APP_API_ROOT,
   timeout: 1000,
 });
 
