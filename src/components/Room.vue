@@ -1,5 +1,15 @@
 <template>
-  <chat-box :items="items" @message="sendMessage" />
+  <v-layout>
+    <v-flex sm8 pr-3>
+      <v-card height="100%">
+        <pre>{{ gameData }}</pre>
+        {{ cardsInHand }}
+      </v-card>
+    </v-flex>
+    <v-flex xs12 sm4>
+      <chat-box :items="items" @message="sendMessage" />
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -12,6 +22,8 @@ export default {
   data: () => ({
     websocket: null,
     items: [],
+    cardsInHand: [],
+    gameData: {},
   }),
 
   mounted() {
@@ -49,8 +61,15 @@ export default {
 
     handleMessage(response) {
       const data = this.deserialize(response.data);
+      console.log(data);
       if (data.type === 'message' || data.type === 'status' || data.type === 'announcement') {
         this.addMessage(data);
+      }
+      if (data.type === 'gameUpdate') {
+        this.gameData = data.payload;
+      }
+      if (data.type === 'handUpdate') {
+        this.cardsInHand = data.payload;
       }
     },
 
@@ -95,5 +114,7 @@ export default {
 </script>
 
 <style>
-
+  .no-scroll {
+    overflow-y: hidden;
+  }
 </style>

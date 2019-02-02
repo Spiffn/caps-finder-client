@@ -1,15 +1,6 @@
 <template>
   <v-container fill-height fluid>
-    <v-layout>
-      <v-flex sm8 pr-3>
-        <v-card height="100%">
-
-        </v-card>
-      </v-flex>
-      <v-flex xs12 sm4>
-        <room/>
-      </v-flex>
-    </v-layout>
+    <room/>
   </v-container>
 </template>
 
