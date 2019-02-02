@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import 'url';
 import ChatBox from './ChatBox.vue';
 import ACTIONS from '@/routerActions';
 
@@ -54,8 +55,12 @@ export default {
 
   methods: {
     connectToWebsocket() {
-      const wsurl = `ws://${window.location.hostname}:8081/connect?room=${this.$route.params.room}&user=${this.$store.getters.username}`;
-      this.websocket = new WebSocket(wsurl);
+      const wsUrl = new URL('/connect', `ws://${window.location.hostname}:8081`);
+      wsUrl.search = new URLSearchParams({
+        room: this.$route.params.room,
+        user: this.$store.getters.username,
+      });
+      this.websocket = new WebSocket(wsUrl);
       this.websocket.onmessage = this.handleMessage;
     },
 
@@ -103,9 +108,14 @@ export default {
 
       const i = message.indexOf(' ');
 
-      if (message.startsWith('/') && i > -1) {
-        data.type = message.substring(1, i);
-        data.payload = message.substring(i + 1);
+      if (message.startsWith('/')) {
+        if (i > -1) {
+          data.type = message.substring(1, i);
+          data.payload = message.substring(i + 1);
+        } else {
+          data.type = message.substring(1);
+          data.payload = null;
+        }
       }
       return Buffer.from(JSON.stringify(data));
     },
