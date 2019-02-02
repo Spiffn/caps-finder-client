@@ -122,9 +122,3 @@ export default {
   },
 };
 </script>
-
-<style>
-  .no-scroll {
-    overflow-y: hidden;
-  }
-</style>
