@@ -87,6 +87,7 @@ export default {
       { icon: 'settings', text: 'Settings', to: '/settings' },
       { icon: 'help', text: 'Help', to: '/help' },
       { icon: 'info', text: 'About', to: '/about' },
+      { icon: 'low_priority', text: 'Test', to: '/test' },
     ],
   }),
 };

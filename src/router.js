@@ -38,5 +38,10 @@ export default new Router({
       name: 'rooms',
       component: () => import(/* webpackChunkName: "rooms" */ './views/JoinRoom.vue'),
     },
+    {
+      path: '/test',
+      name: 'test',
+      component: () => import(/* webpackChunkName: "rooms" */ './views/Test.vue'),
+    },
   ],
 });
