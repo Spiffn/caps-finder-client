@@ -2,8 +2,13 @@
   <v-layout>
     <v-flex sm8 pr-3>
       <v-card height="100%">
-        <pre>{{ gameData }}</pre>
-        {{ cardsInHand }}
+        <pre>{{gameData}}</pre>
+        {{cardsInHand}}
+        <!-- <div class="pr-5">
+          <div v-for="card in cardsInHand" :key="card" class="card-container smol">
+            <playing-card :rank="card.substring(0,1)" :suit="card.substring(1)" />
+          </div>
+        </div> -->
       </v-card>
     </v-flex>
     <v-flex xs12 sm4>
@@ -16,8 +21,10 @@
 import 'url';
 import ChatBox from './ChatBox.vue';
 import ACTIONS from '@/routerActions';
+// import PlayingCard from './PlayingCard.vue';
 
 export default {
+  // Add PlayingCard to components when ready
   components: { ChatBox },
 
   data: () => ({
@@ -122,3 +129,14 @@ export default {
   },
 };
 </script>
+
+<style>
+  .smol {
+    transform: scale(0.3);
+  }
+  .card-container {
+    width: 30px;
+    height: 70px;
+    display: inline-block;
+  }
+</style>
