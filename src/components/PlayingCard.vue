@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{ flipped : flipped }" @click="flipped = !flipped">
+  <div class="card" :class="{ selected : selected }" @click="selected = !selected">
     <div class="card-inner">
       <div class="face">
         <div class="grid" :class="color">
@@ -72,7 +72,7 @@ export default {
   },
 
   data: () => ({
-    flipped: false,
+    selected: false,
     a15,
     a21,
     pattern: {
@@ -243,13 +243,13 @@ export default {
   border-radius: 10px;
 }
 
-.card.flipped .card-inner {
+/* .card.flipped .card-inner {
   transform: rotateY(180deg);
-}
+} */
 
-.card:hover {
-  transform: translateY(-5%);
-}
+/* .card:hover {
+  transform: translateY(-10%);
+} */
 
 /* Position the front and back side */
 .face, .back {
@@ -257,6 +257,15 @@ export default {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.card:hover .face, .card:hover .back {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.card.selected {
+  transform: translateY(-10%);
 }
 
 /* Style the back side */
