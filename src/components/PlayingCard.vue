@@ -1,14 +1,14 @@
 <template>
-  <div class="card" :class="{ selected : selected }" @click="selected = !selected">
+  <div class="card" :class="{ selected : selected }" @click="select">
     <div class="card-inner">
       <div class="face">
         <div class="grid" :class="color">
           <div class="top">
-            <div>{{ rankView }}</div>
+            <div>{{ displayedRank }}</div>
             <div class="corner-entity">{{ entity }}</div>
           </div>
           <div class="grid-center center">
-            <div class="rank-2-8" v-if="'A2345678'.indexOf(rank) > -1">
+            <div class="rank-A-8" v-if="rank < 9">
               <div
                 v-for="i in a15" :key="i"
                 class="center"
@@ -18,7 +18,8 @@
                 </template>
               </div>
             </div>
-            <div class="rank-9-T" v-else-if="'9T'.indexOf(rank) > -1">
+            <div class="face-card" :class="faceClass" v-else-if="rank > 10"></div>
+            <div class="rank-9-T" v-else>
               <div
                 v-for="i in a21" :key="i"
                 class="center"
@@ -28,10 +29,9 @@
                 </template>
               </div>
             </div>
-            <div class="face-card" :class="faceClass" v-else></div>
           </div>
           <div class="bottom rotate">
-            <div>{{ rankView }}</div>
+            <div>{{ displayedRank }}</div>
             <div class="corner-entity">{{ entity }}</div>
           </div>
         </div>
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+
 const a15 = [];
 for (let i = 0; i < 15; i += 1) {
   a15.push(i);
@@ -58,16 +59,18 @@ export default {
     rank: {
       type: [String, Number],
       default: '2',
-      validator(value) {
-        return '23456789TJQKA'.indexOf(value.toString()) > -1;
-      },
     },
     suit: {
       type: String,
       default: 'S',
-      validator(value) {
-        return 'SHDC'.indexOf(value) > -1;
-      },
+    },
+    value: {
+      type: Boolean,
+      default: false,
+    },
+    flipped: {
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -76,7 +79,7 @@ export default {
     a15,
     a21,
     pattern: {
-      A: {
+      1: {
         indicies: [7],
         rotated: [],
       },
@@ -112,12 +115,23 @@ export default {
         indicies: [0, 2, 6, 8, 12, 10, 14, 18, 20],
         rotated: [12, 14, 18, 20],
       },
-      T: {
+      10: {
         indicies: [0, 2, 4, 6, 8, 12, 14, 16, 18, 20],
         rotated: [12, 14, 16, 18, 20],
       },
     },
   }),
+
+  created() {
+    this.selected = this.value;
+  },
+
+  methods: {
+    select() {
+      this.selected = !this.selected;
+      this.$emit('input', this.selected);
+    },
+  },
 
   computed: {
     entity() {
@@ -129,12 +143,31 @@ export default {
       }[this.suit];
     },
 
-    rankView() {
-      return this.rank !== 'T' ? this.rank : 10;
+    selected: {
+      get() {
+        return this.value;
+      },
+
     },
 
     color() {
       return ['C', 'S'].includes(this.suit) ? 'black--text' : 'red--text';
+    },
+
+    displayedRank() {
+      if (this.rank === 1) {
+        return 'A';
+      }
+      if (this.rank === 11) {
+        return 'J';
+      }
+      if (this.rank === 12) {
+        return 'Q';
+      }
+      if (this.rank === 13) {
+        return 'K';
+      }
+      return this.rank.toString();
     },
 
     faceClass() {
@@ -153,21 +186,22 @@ export default {
 .card {
   cursor: pointer;
   transition: all ease-in-out 0.05s;
+  display: inline-block;
 }
 
 .card, .grid {
-  width: 63.5mm;
-  height: 88.9mm;
+  width: 100px;
+  height: 140px;
 }
 
 .grid {
   background: white;
   display: inline-block;
   text-align: center;
-  border-radius: 10px;
   display: grid;
   grid-template-rows: repeat(11, minmax(0, 1fr));
   grid-template-columns: repeat(7, minmax(0, 1fr));
+  border-radius: 5px;
 }
 
 .top {
@@ -187,7 +221,7 @@ export default {
 .grid-center {
   grid-row: 2 / -2;
   grid-column: 2 / -2;
-  font-size: 60px;
+  font-size: 30px;
 }
 
 .center {
@@ -196,7 +230,7 @@ export default {
   align-items: center;
 }
 
-.rank-2-8 {
+.rank-A-8 {
   height: 100%;
   width: 100%;
   display: grid;
@@ -217,13 +251,13 @@ export default {
 }
 
 .top, .bottom {
-  font-size: 30px;
-  letter-spacing: -5px;
+  font-size: 15px;
+  letter-spacing: -2px;
 }
 
 .corner-entity {
   line-height: 0.7;
-  font-size: 30px;
+  font-size: 15px;
 }
 
 .card {
@@ -240,12 +274,11 @@ export default {
   text-align: center;
   transition: all 0.3s ease-in-out;
   transform-style: preserve-3d;
-  border-radius: 10px;
 }
 
-/* .card.flipped .card-inner {
+.card.flipped .card-inner {
   transform: rotateY(180deg);
-} */
+}
 
 /* .card:hover {
   transform: translateY(-10%);
@@ -258,6 +291,7 @@ export default {
   height: 100%;
   backface-visibility: hidden;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  border-radius: 5px;
 }
 
 .card:hover .face, .card:hover .back {
@@ -281,7 +315,7 @@ export default {
   background-color: #131313;
   background-size: 20px 20px;
   transform: rotateY(180deg);
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
 .face-card {

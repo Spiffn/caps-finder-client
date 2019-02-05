@@ -3,12 +3,11 @@
     <v-flex sm8 pr-3>
       <v-card height="100%">
         <pre>{{gameData}}</pre>
-        {{cardsInHand}}
-        <!-- <div class="pr-5">
-          <div v-for="card in cardsInHand" :key="card" class="card-container smol">
-            <playing-card :rank="card.substring(0,1)" :suit="card.substring(1)" />
-          </div>
-        </div> -->
+        <playing-card
+          v-for="card in hand"
+          :key="card.suit + card.rank.toString()"
+          v-bind="card"
+          class="ma-1" />
       </v-card>
     </v-flex>
     <v-flex xs12 sm4>
@@ -19,18 +18,36 @@
 
 <script>
 import 'url';
+import _ from 'lodash';
 import ChatBox from './ChatBox.vue';
 import ACTIONS from '@/routerActions';
-// import PlayingCard from './PlayingCard.vue';
+import PlayingCard from './PlayingCard.vue';
+
+const rankToNum = (rank) => {
+  switch (rank) {
+    case 'A':
+      return 1;
+    case 'T':
+      return 10;
+    case 'J':
+      return 11;
+    case 'Q':
+      return 12;
+    case 'K':
+      return 13;
+    default:
+      return parseInt(rank, 10);
+  }
+};
 
 export default {
   // Add PlayingCard to components when ready
-  components: { ChatBox },
+  components: { ChatBox, PlayingCard },
 
   data: () => ({
     websocket: null,
     items: [],
-    cardsInHand: [],
+    hand: [],
     gameData: {},
   }),
 
@@ -81,7 +98,10 @@ export default {
         this.gameData = data.payload;
       }
       if (data.type === 'handUpdate') {
-        this.cardsInHand = data.payload;
+        this.hand = _.map(data.payload, card => ({
+          rank: rankToNum(card.substring(0, 1)),
+          suit: card.substring(1),
+        }));
       }
     },
 
