@@ -1,26 +1,38 @@
 <template>
   <v-card height="100%" class="flexcard">
     <v-card-title class="no-flex">
-      <h3>Room: {{ $route.params.room }}</h3>
+      <v-layout>
+        <v-flex>
+          <h3>
+            Room: {{ $route.params.room }}
+            <v-tooltip top>
+              <v-btn slot="activator" flat icon @click="copy">
+                <v-icon>file_copy</v-icon>
+              </v-btn>
+              <span>Copy room to clipboard</span>
+            </v-tooltip>
+            <v-snackbar v-model="copied" timeout="2000" top>
+              <span>
+                <a :href="url">{{ url }}</a>
+                has been copied to the clipboard
+              </span>
+            </v-snackbar>
+          </h3>
+        </v-flex>
+      </v-layout>
     </v-card-title>
     <v-divider></v-divider>
     <v-layout ref="chatMessages" class="scroll">
       <v-flex>
         <v-hover v-for="(item, index) in items" :key="item.id">
-          <v-card
+          <chat-message
             slot-scope="{ hover }"
             :class="[hover ? 'darken-2' : 'darken-3', 'grey']"
-          >
-            <v-card-text class="break-word">
-              <chat-message
-                :user="item.user"
-                :date="item.timestamp"
-                :text="item.payload"
-                :type="item.type"
-                :showSender="showSender(item, items[index-1])"/>
-            </v-card-text>
-            <v-divider/>
-          </v-card>
+            :user="item.user"
+            :date="item.timestamp"
+            :text="item.payload"
+            :type="item.type"
+            :showSender="showSender(item, items[index-1])"/>
         </v-hover>
       </v-flex>
     </v-layout>
@@ -46,6 +58,23 @@
 <script>
 import ChatMessage from './ChatMessage.vue';
 
+const copyStringToClipboard = (str) => {
+  // Create new element
+  const el = document.createElement('textarea');
+  // Set value (string to be copied)
+  el.value = str;
+  // Set non-editable to avoid focus and move outside of view
+  el.setAttribute('readonly', '');
+  el.style = { position: 'absolute', left: '-9999px' };
+  document.body.appendChild(el);
+  // Select text inside element
+  el.select();
+  // Copy text to clipboard
+  document.execCommand('copy');
+  // Remove temporary element
+  document.body.removeChild(el);
+};
+
 export default {
   components: { ChatMessage },
 
@@ -59,7 +88,14 @@ export default {
   data: () => ({
     message: '',
     rules: [v => v.length <= 250 || 'Max 250 characters'],
+    copied: false,
   }),
+
+  computed: {
+    url() {
+      return window.location.toString();
+    },
+  },
 
   methods: {
     sendMessage() {
@@ -77,6 +113,10 @@ export default {
         return true;
       }
       return current.type !== previous.type || current.user !== previous.user;
+    },
+    copy() {
+      copyStringToClipboard(this.url);
+      this.copied = true;
     },
   },
 
@@ -100,10 +140,6 @@ export default {
 .flexcard {
   display: flex;
   flex-direction: column;
-}
-
-.break-word{
-  overflow-wrap: break-word;
 }
 
 .no-flex {

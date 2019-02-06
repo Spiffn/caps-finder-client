@@ -3,11 +3,15 @@
     <v-flex sm8 pr-3>
       <v-card height="100%">
         <pre>{{gameData}}</pre>
-        <playing-card
-          v-for="card in hand"
-          :key="card.suit + card.rank.toString()"
-          v-bind="card"
-          class="ma-1" />
+        <div class="pr-5 mr-5 pl-3">
+          <div
+            v-for="card in hand"
+            class="card-wrapper"
+            :key="card.suit + card.rank.toString()">
+            <playing-card
+              v-bind="card" />
+          </div>
+        </div>
       </v-card>
     </v-flex>
     <v-flex xs12 sm4>
@@ -154,9 +158,8 @@ export default {
   .smol {
     transform: scale(0.3);
   }
-  .card-container {
+  .card-wrapper {
     width: 30px;
-    height: 70px;
     display: inline-block;
   }
 </style>
