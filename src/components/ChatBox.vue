@@ -11,7 +11,7 @@
               </v-btn>
               <span>Copy room to clipboard</span>
             </v-tooltip>
-            <v-snackbar v-model="copied" timeout="2000" top>
+            <v-snackbar v-model="copied" :timeout="2000" top>
               <span>
                 <a :href="url">{{ url }}</a>
                 has been copied to the clipboard
@@ -24,7 +24,7 @@
     <v-divider></v-divider>
     <v-layout ref="chatMessages" class="scroll">
       <v-flex>
-        <v-hover v-for="(item, index) in items" :key="item.id">
+        <v-hover v-for="(item, index) in chatItems" :key="item.id+item.payload">
           <chat-message
             slot-scope="{ hover }"
             :class="[hover ? 'darken-2' : 'darken-3', 'grey']"
@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import ChatMessage from './ChatMessage.vue';
 
 const copyStringToClipboard = (str) => {
@@ -94,6 +95,9 @@ export default {
   computed: {
     url() {
       return window.location.toString();
+    },
+    chatItems() {
+      return _.filter(this.items, item => typeof (item.payload) === 'string');
     },
   },
 

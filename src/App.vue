@@ -4,6 +4,7 @@
       v-model="drawer"
       clipped
       fixed
+      temporary
       app
     >
       <v-list dense>
@@ -67,7 +68,7 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Caps - {{ $store.getters.username }}</v-toolbar-title>
+      <v-toolbar-title>Capitalism</v-toolbar-title>
     </v-toolbar>
     <v-content :class="{ 'full-height': $route.name === 'game' }">
       <transition name="slide-fade" mode="out-in">

@@ -1,5 +1,5 @@
 <template>
-  <div class="card" :class="{ selected : selected }" @click="select">
+  <div class="card" :class="{ selected : selected }" @click="updateInput">
     <div class="card-inner">
       <div class="face">
         <div class="grid" :class="color">
@@ -55,6 +55,10 @@ for (let i = 0; i < 21; i += 1) {
 }
 
 export default {
+  model: {
+    prop: 'modelValue',
+    event: 'change',
+  },
   props: {
     rank: {
       type: [String, Number],
@@ -65,7 +69,15 @@ export default {
       default: 'S',
     },
     value: {
-      type: Boolean,
+      type: String,
+    },
+    modelValue: {
+      defaule: false,
+    },
+    trueValue: {
+      default: true,
+    },
+    falseValue: {
       default: false,
     },
     flipped: {
@@ -123,13 +135,26 @@ export default {
   }),
 
   created() {
-    this.selected = this.value;
+    this.selected = this.shouldBeChecked;
   },
 
   methods: {
-    select() {
+    updateInput() {
       this.selected = !this.selected;
-      this.$emit('input', this.selected);
+
+      if (this.modelValue instanceof Array) {
+        const newValue = [...this.modelValue];
+
+        if (this.selected) {
+          newValue.push(this.value);
+        } else {
+          newValue.splice(newValue.indexOf(this.value), 1);
+        }
+
+        this.$emit('change', newValue);
+      } else {
+        this.$emit('change', this.selected ? this.trueValue : this.falseValue);
+      }
     },
   },
 
@@ -143,11 +168,12 @@ export default {
       }[this.suit];
     },
 
-    selected: {
-      get() {
-        return this.value;
-      },
-
+    shouldBeChecked() {
+      if (this.modelValue instanceof Array) {
+        return this.modelValue.includes(this.value);
+      }
+      // Note that `true-value` and `false-value` are camelCase in the JS
+      return this.modelValue === this.trueValue;
     },
 
     color() {
