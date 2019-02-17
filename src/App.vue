@@ -68,7 +68,11 @@
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-left>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>Capitalism</v-toolbar-title>
+      <v-toolbar-title>
+        Capitalism
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <room-display></room-display>
     </v-toolbar>
     <v-content :class="{ 'full-height': $route.name === 'game' }">
       <transition name="slide-fade" mode="out-in">
@@ -79,7 +83,12 @@
 </template>
 
 <script>
+import RoomDisplay from '@/components/RoomDisplay.vue';
+
 export default {
+  components: {
+    RoomDisplay,
+  },
   data: () => ({
     drawer: null,
     items: [
