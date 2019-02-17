@@ -35,7 +35,35 @@
       </v-card>
     </v-flex>
     <v-flex xs12 sm4>
-      <chat-box :items="items" @message="sendMessage" />
+      <v-tabs
+    class="full-height"
+    centered
+    color="cyan"
+    dark
+    icons-and-text
+  >
+    <v-tabs-slider color="yellow"></v-tabs-slider>
+        <v-tab href="#chat">
+          Chat
+          <v-icon>chat</v-icon>
+        </v-tab>
+        <v-tab href="#timeline">
+          Timeline
+          <v-icon>timeline</v-icon>
+        </v-tab>
+        <v-tab-item value="chat">
+          <game-chat :items="items" @message="sendMessage"></game-chat>
+        </v-tab-item>
+        <v-tab-item value="timeline">
+          <v-card height="100%" class="flexcard">
+            <v-layout ref="chatMessages" class="scroll full-height">
+              <v-flex px-5>
+                <game-timeline></game-timeline>
+              </v-flex>
+            </v-layout>
+          </v-card>
+        </v-tab-item>
+      </v-tabs>
     </v-flex>
   </v-layout>
 </template>
@@ -43,9 +71,10 @@
 <script>
 import 'url';
 import _ from 'lodash';
-import ChatBox from './ChatBox.vue';
 import ACTIONS from '@/routerActions';
 import PlayingCard from './PlayingCard.vue';
+import GameChat from './GameChat.vue';
+import GameTimeline from './GameTimeline.vue';
 
 const rankToNum = (rank) => {
   switch (rank) {
@@ -66,7 +95,7 @@ const rankToNum = (rank) => {
 
 export default {
   // Add PlayingCard to components when ready
-  components: { ChatBox, PlayingCard },
+  components: { PlayingCard, GameTimeline, GameChat },
 
   data: () => ({
     websocket: null,
