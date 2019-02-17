@@ -56,10 +56,6 @@ export default {
     chatItems() {
       return _.filter(this.items, item => typeof (item.payload) === 'string');
     },
-    // TODO: Improve logic for event item checkz~
-    eventItems() {
-      return _.filter(this.items, item => typeof (item.payload) !== 'string');
-    },
   },
 
   methods: {
