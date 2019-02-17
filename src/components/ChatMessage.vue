@@ -9,7 +9,7 @@
         top
         :class="[hovering || type!=='message' ? 'd-inline' : 'd-none']"
         v-if="type!=='message' || !showSender">
-        <small slot="activator">{{ date | shortDate }}</small>
+        <small slot="activator">{{ date | shortDate | noBreak }}</small>
         <h3>{{ date | longDate }}</h3>
       </v-tooltip>
     </div>
@@ -19,7 +19,7 @@
           <span>
             <b>{{ user }} </b>
             <v-tooltip top>
-              <small slot="activator">{{ date | shortDate }}</small>
+              <small slot="activator">{{ date | shortDate | noBreak }}</small>
               <h3>{{ date | longDate }}</h3>
             </v-tooltip>
           </span>
@@ -43,7 +43,7 @@
 <script>
 import moment from 'moment';
 
-const avatarSize = 54;
+const avatarSize = 42;
 
 export default {
   props: {
@@ -89,6 +89,10 @@ export default {
   font-size: 0.75em;
 }
 
+.side {
+  height: 42px;
+}
+
 .text {
   hyphens: auto;
 }
@@ -99,10 +103,10 @@ export default {
 }
 
 .container {
-  grid-template-columns: 70px 1fr;
+  grid-template-columns: 48px 1fr;
   display: grid;
   width: 100%;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 </style>
