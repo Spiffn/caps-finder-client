@@ -58,7 +58,7 @@
           <v-card height="100%" class="flexcard">
             <v-layout ref="chatMessages" class="scroll full-height">
               <v-flex px-5>
-                <game-timeline></game-timeline>
+                <game-timeline :items="items"></game-timeline>
               </v-flex>
             </v-layout>
           </v-card>
