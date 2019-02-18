@@ -158,7 +158,7 @@ export default {
 
   methods: {
     connectToWebsocket() {
-    const wsUrl = new URL('/connect', `ws://${window.location.hostname}:8081`);
+      const wsUrl = new URL('/connect', `ws://${window.location.hostname}:8081`);
       wsUrl.search = new URLSearchParams({
         room: this.$route.params.room,
         user: this.$store.getters.username,
