@@ -1,26 +1,16 @@
 <template>
   <v-card height="100%" class="flexcard">
-    <v-card-title class="no-flex">
-      <h3>Room: {{ $route.params.room }}</h3>
-    </v-card-title>
-    <v-divider></v-divider>
-    <v-layout ref="chatMessages" class="scroll">
+    <v-layout ref="chatMessages" class="scroll full-height">
       <v-flex>
-        <v-hover v-for="(item, index) in items" :key="item.id">
-          <v-card
+        <v-hover v-for="(item, index) in chatItems" :key="item.id+item.payload">
+          <chat-message
             slot-scope="{ hover }"
             :class="[hover ? 'darken-2' : 'darken-3', 'grey']"
-          >
-            <v-card-text class="break-word">
-              <chat-message
-                :user="item.user"
-                :date="item.timestamp"
-                :text="item.payload"
-                :type="item.type"
-                :showSender="showSender(item, items[index-1])"/>
-            </v-card-text>
-            <v-divider/>
-          </v-card>
+            :user="item.user"
+            :date="item.timestamp"
+            :text="item.payload"
+            :type="item.type"
+            :showSender="showSender(item, items[index-1])"/>
         </v-hover>
       </v-flex>
     </v-layout>
@@ -44,6 +34,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import ChatMessage from './ChatMessage.vue';
 
 export default {
@@ -60,6 +51,12 @@ export default {
     message: '',
     rules: [v => v.length <= 250 || 'Max 250 characters'],
   }),
+
+  computed: {
+    chatItems() {
+      return _.filter(this.items, item => typeof (item.payload) === 'string');
+    },
+  },
 
   methods: {
     sendMessage() {
@@ -92,7 +89,19 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
+.full-height {
+  height: 100%;
+}
+
+.v-window {
+  padding-bottom: 72px;
+}
+
+.v-window, .v-window__container, .v-window-item {
+  height: 100%;
+}
+
 .scroll {
   overflow-y: auto;
 }
@@ -100,10 +109,6 @@ export default {
 .flexcard {
   display: flex;
   flex-direction: column;
-}
-
-.break-word{
-  overflow-wrap: break-word;
 }
 
 .no-flex {
