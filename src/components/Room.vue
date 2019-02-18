@@ -106,6 +106,7 @@ export default {
   }),
 
   mounted() {
+    console.log(process.env.VUE_APP_API_ROOT);
     const { room } = this.$route.params;
     const user = this.$store.dispatch(ACTIONS.INITIALIZE_USERNAME);
 
@@ -157,7 +158,7 @@ export default {
 
   methods: {
     connectToWebsocket() {
-      const wsUrl = new URL('/connect', `ws://${window.location.hostname}:8081`);
+    const wsUrl = new URL('/connect', `ws://${window.location.hostname}:8081`);
       wsUrl.search = new URLSearchParams({
         room: this.$route.params.room,
         user: this.$store.getters.username,
